@@ -1,34 +1,58 @@
 <script setup>
-import BootcampLogo from "./assets/svg/BootcampLogo.vue"
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import DATA from "./assets/data/data.json"
+import Main from "./components/Main.vue";
+
+
+function filterByGroups(data) {
+    const groups = data.reduce((currentData, person) => {
+        currentData[person.group] = [];
+        return currentData;
+    },{});
+    
+		Object.keys(groups).forEach(group => {
+       const students =  data.filter(person => person.group == group);
+       groups[group] = students;
+			 console.log(groups);
+
+    })
+    return groups
+		
+}
+
+
 </script>
 
+
+
 <template>
-	<div>
-		<BootcampLogo />
-		<br />
-		<a href="https://vitejs.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vuejs.org/" target="_blank">
-			<img src="/vue.svg" class="logo vue" alt="Vue logo" />
-		</a>
-	</div>
-	<HelloWorld msg="Vite + Vue" />
+
+<Main></Main>
+
+<ul class="listsBlock">	
+		<li class="lists" style="list-style-type: none;" v-for=" groups in filterByGroups(DATA)">{{groups}}</li>		
+</ul>
+
+
+
 </template>
 
+
 <style scoped>
-.logo {
-	height: 6em;
-	padding: 1.5em;
-	will-change: filter;
+.listsBlock {
+    list-style-type: none;
+    margin: 0px;
+    padding:0px;
+    overflow: hidden;
+		
+}
+.lists {
+    float: left;
+		border:2px solid white;
+		width: 245px;
+		height: 900px;
+		margin: 3px;
+		padding-top: 5px;		
 }
 
-.logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-	filter: drop-shadow(0 0 2em #42b883aa);
-}
 </style>
